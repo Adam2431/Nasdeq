@@ -1,34 +1,30 @@
 import Image from "next/image";
-import StockCard from "./StockCard";
+import { getStocks } from "./actions/getStocks";
+import StockBox from "./StockBox";
 
 export default async function Home() {
-  async function getData() {
-    "use server";
-    const res = await fetch(
-      "https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&limit=100&apiKey=48aLB9mDW6LLzX5bjQrHxac_D2UA5IwK"
-    );
-    if (!res.ok) {
-      // This will activate the closest `error.js` Error Boundary
-      throw new Error("Failed to fetch data");
-    }
-
-    return res.json();
-  }
-  const stocks: stock[] = (await getData()).results;
-  console.log(stocks);
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-[#1f202f]">
-      <div className="@container">
-        {stocks?.length === 0 && (
-          <div className="text-center py-9">
-            <h1 className="text-2xl font-semibold">No stocks are available</h1>
+    <main className="dark flex min-h-screen flex-col items-center justify-between bg-[#1f202f] min-w-full">
+      <div className="min-w-full">
+        <nav className="flex items-center justify-between w-full px-5 pb-1 pt-10 bg-[#191a28]">
+          <Image
+            src="/nasdeq.png"
+            alt="Nasdeq"
+            width={125}
+            height={125}
+            className="mb-4"
+          />
+        </nav>
+        <div className="p-5">
+          <div>
+            <h1 className="text-3xl font-bold text-white text-center">
+              Welcome to Nasdeq
+            </h1>
+            <p className="text-lg text-gray-400 text-center">
+              The best place to find stocks
+            </p>
           </div>
-        )}
-        <div className="py-9 grid gap-6 grid-cols-1 @[680px]:grid-cols-2 @[1050px]:grid-cols-3">
-          {stocks.map((stock, index) => (
-            <StockCard stock={stock} key={index} />
-          ))}
+          <StockBox />
         </div>
       </div>
     </main>
