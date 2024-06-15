@@ -1,0 +1,34 @@
+{
+  "id": "2431",
+  "name": "Nasdaq",
+  "short_name": "Nasdaq",
+  "description": "Nasdaq Frontend Task",
+  "icons": [
+    {
+      "src": "./nasdeq.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./nasdeq.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./nasdeq.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "./nasdeq.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1f202f",
+  "background_color": "#1f202f",
+  "start_url": "/",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait"
+}

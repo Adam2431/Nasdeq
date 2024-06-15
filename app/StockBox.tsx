@@ -12,7 +12,7 @@ export default function StockBox() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const onSearch = async (value: string) => {
+  const onSearch = (value: string) => {
     // now you got a read/write object
     const current = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
 
@@ -21,14 +21,13 @@ export default function StockBox() {
     } else {
       current.set("q", value);
     }
-    console.log("value=" + value);
     // cast to string
     const search = current.toString();
     // or const query = `${'?'.repeat(search.length && 1)}${search}`;
     const query = search ? `?${search}` : "";
 
     router.push(`${pathname}${query}`);
-    setStocks((await getStocks(value)).results);
+    getStocks(value).then((res) => setStocks(res.results));
   };
 
   useEffect(() => {
