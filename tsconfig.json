@@ -11,6 +11,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "types": ["jest", "node"],
+    "typeRoots": ["./node_modules/@types"],
     "incremental": true,
     "plugins": [
       {
