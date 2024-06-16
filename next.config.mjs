@@ -4,13 +4,24 @@ const nextConfig = {};
 
 export default withPWA({
   ...nextConfig,
-  dest: "public",
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
-  reloadOnOnline: true,
-  swcMinify: true,
-  disable: process.env.NODE_ENV === "development",
-  workboxOptions: {
-    disableDevLogs: true,
+  pwa: {
+    dest: "public",
+    disable: process.env.NODE_ENV === "development",
+    register: true,
+    scope: "/",
+    sw: "service-worker.js",
+    dynamicStartUrlRedirect: "/login",
+    runtimeCaching: [
+      {
+        urlPattern: /^https?.*/,
+        handler: "NetworkFirst",
+        options: {
+          cacheName: "offlineCache",
+          expiration: {
+            maxEntries: 200,
+          },
+        },
+      },
+    ],
   },
 });

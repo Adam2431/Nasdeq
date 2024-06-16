@@ -8,7 +8,7 @@ export async function getStocks(search: string) {
   );
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    console.error(res.body);
+    return { error: "Too many requests!" };
   }
   return res.json();
 }

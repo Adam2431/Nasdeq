@@ -7,12 +7,14 @@ import { getStocks } from "./actions/getStocks";
 import { useEffect, useState } from "react";
 import StockCard from "./StockCard";
 
-export default function StockBox() {
+export default function StockBox(props: { stocks: stock[]; error: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const onSearch = (value: string) => {
+  const { stocks, error } = props;
+
+  const searchFunc = (value: string) => {
     // now you got a read/write object
     const current = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
 
@@ -27,23 +29,25 @@ export default function StockBox() {
     const query = search ? `?${search}` : "";
 
     router.push(`${pathname}${query}`);
-    getStocks(value).then((res) => setStocks(res.results));
   };
+  const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    const search = searchParams.get("q") || "";
-    onSearch(search);
-  }, []);
-
-  const [stocks, setStocks] = useState([]);
+  function handleKeyDown(event: { keyCode: number }) {
+    if (event.keyCode === 13) {
+      searchFunc(search);
+    }
+  }
 
   return (
     <div>
       <div className="rounded-full flex justify-center items-center text-white py-6">
         <Input
           label="Search"
+          onKeyDown={(e) => {
+            handleKeyDown(e);
+          }}
           onChange={(e) => {
-            onSearch(e.target.value);
+            setSearch(e.target.value);
           }}
           isClearable
           radius="full"
@@ -79,9 +83,17 @@ export default function StockBox() {
           <StockCard stock={stock} key={index} />
         ))}
       </div>
-      {stocks?.length === 0 && (
+      {stocks?.length === 0 && !error && (
         <div className="text-center py-9">
           <h1 className="text-2xl font-semibold">No stocks are available</h1>
+        </div>
+      )}
+
+      {error && (
+        <div className="text-center py-9">
+          <h1 className="text-2xl font-semibold text-red-600">
+            Too many requests! Please try again in a minute!
+          </h1>
         </div>
       )}
     </div>
